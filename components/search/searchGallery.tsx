@@ -6,60 +6,19 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { originalData } from "@/jsonData/SeachMediaData";
+interface DataProp {
+  id: number;
+  widthRatio?: number;
+  heightRatio?: number;
+  imageUrl: string;
+}
 
 const SearchGallery: React.FC = () => {
   let idCounter = useRef(0);
   const [data, setData] = useState<DataProp[]>([]);
 
-  interface DataProp {
-    id: number;
-    widthRatio?: number;
-    heightRatio?: number;
-    imageUrl: string;
-  }
-
   const generateData = () => {
-    const originalData = [
-      {
-        imageUrl: "https://picsum.photos/200/300?random=1",
-      },
-      {
-        imageUrl: "https://picsum.photos/200/300?random=2",
-      },
-      {
-        imageUrl: "https://picsum.photos/200/300?random=3",
-        widthRatio: 1,
-        heightRatio: 2,
-      },
-      {
-        imageUrl: "https://picsum.photos/200/300?random=4",
-      },
-      {
-        imageUrl: "https://picsum.photos/200/300?random=5",
-      },
-      {
-        imageUrl: "https://picsum.photos/200/300?random=6",
-
-        widthRatio: 1,
-        heightRatio: 2,
-      },
-      {
-        imageUrl: "https://picsum.photos/200/300?random=7",
-
-        widthRatio: 2,
-        heightRatio: 2,
-      },
-      {
-        imageUrl: "https://picsum.photos/200/300?random=8",
-      },
-      {
-        imageUrl: "https://picsum.photos/200/300?random=9",
-      },
-      {
-        imageUrl: "https://picsum.photos/200/300?random=10",
-      },
-    ];
-
     let clonedData: DataProp[] = [];
 
     for (let i = 0; i < 100; i++) {
@@ -97,7 +56,7 @@ const SearchGallery: React.FC = () => {
         renderItem={renderItem}
         showScrollIndicator={false}
         keyExtractor={(item: DataProp) => item.id.toString()}
-        onEndReached={()=>Alert.alert("End here",)}
+        onEndReached={() => Alert.alert("End here")}
       />
     </View>
   );
