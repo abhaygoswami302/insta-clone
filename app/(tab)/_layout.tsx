@@ -37,19 +37,23 @@ const _layout = () => {
         options={{
           title: "Post",
           headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <FontAwesome5 size={28} name="plus-square" color={color} />
+          tabBarIcon: ({ color,focused }) => (
+            <FontAwesome size={28} name={focused?"plus-square":"plus-square-o"} color={color} />
           ),
           tabBarLabel: () => null,
         }}
       />
       <Tabs.Screen
-        name="userreact"
+        name="likes"
         options={{
           title: "User React",
           headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <FontAwesome5 size={28} name="heart" color={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <FontAwesome
+              size={28}
+              name={focused ? "heart" : "heart-o"}
+              color={color}
+            />
           ),
           tabBarLabel: () => null,
         }}
@@ -58,8 +62,8 @@ const _layout = () => {
         name="profile"
         options={{
           headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="user-circle-o" color={color} />
+          tabBarIcon: ({ color,focused }) => (
+            <FontAwesome size={28} name={focused?"user-circle":"user-circle-o"} color={color} />
           ),
           tabBarLabel: () => null,
         }}
