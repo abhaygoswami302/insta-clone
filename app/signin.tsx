@@ -6,17 +6,17 @@ import {
   Pressable,
   Alert,
   StyleSheet,
-  Button,
 } from "react-native";
 import { useState } from "react";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useRef } from "react";
 import CustomKeyboardView from "@/components/CustomKeyboardView";
 import { useAuth } from "@/context/AuthContext";
+
 const signin = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { register } = useAuth();
@@ -36,60 +36,56 @@ const signin = () => {
       console.log(error);
     }
   };
+
   return (
-    <CustomKeyboardView>
-      <View style={styles.authContainer}>
-        <View>
-          <View>
+    <View style={styles.authContainer}>
+      <View style={styles.innerContainer}>
+        <View style={styles.logoImageContainer}>
+          <Pressable onPress={() => router.push("/(tab)")}>
             <Image
               source={require("@/assets/images/instagram-logo.png")}
               resizeMode="contain"
               style={styles.logoImage}
             />
-          </View>
-          <View>
-            <View style={styles.InputContainer}>
-              <TextInput
-                onChangeText={(value) => (emialRef.current = value)}
-                style={styles.InputField}
-                placeholder="Enter your email"
-                placeholderTextColor={"rgba(0, 0, 0, 0.2)"}
-              />
-            </View>
-            <View>
-              <View style={styles.InputContainer}>
-                <TextInput
-                  onChangeText={(value) => (passwordRef.current = value)}
-                  style={styles.InputField}
-                  placeholder="Enter your password"
-                  placeholderTextColor={"rgba(0, 0, 0, 0.2)"}
-                  secureTextEntry
-                />
-              </View>
-              <Pressable onPress={() => router.replace("/forget-password")}>
-                <Text style={styles.forgetMessage}>forget password?</Text>
-              </Pressable>
-            </View>
-            <View>
-              <Pressable onPress={handleLogin} style={styles.submitButton}>
-                <Text style={styles.buttonText}>
-                  {isLoading ? "Loading.." : "Log In"}
-                </Text>
-              </Pressable>
-            </View>
+          </Pressable>
+        </View>
+        <View style={styles.formContainer}>
+          <TextInput
+            onChangeText={(value) => (emialRef.current = value)}
+            style={styles.InputField}
+            placeholder="Enter your email"
+            placeholderTextColor={"rgba(0, 0, 0, 0.2)"}
+          />
+          <TextInput
+            onChangeText={(value) => (passwordRef.current = value)}
+            style={styles.InputField}
+            placeholder="Enter your password"
+            placeholderTextColor={"rgba(0, 0, 0, 0.2)"}
+            secureTextEntry
+          />
+          <Pressable onPress={() => router.replace("/forget-password")}>
+            <Text style={styles.forgetMessage}>forget password?</Text>
+          </Pressable>
 
-            <View>
-              <Pressable onPress={() => router.push("/signup")}>
-                <Text style={styles.noAccountLink}>
-                  Don’t have an account?{" "}
-                  <Text style={{ color: "#3797ef" }}>Sign up.</Text>
-                </Text>
-              </Pressable>
-            </View>
-          </View>
+          <Pressable onPress={handleLogin} style={styles.submitButton}>
+            <Text style={styles.buttonText}>
+              {isLoading ? "Loading.." : "Log In"}
+            </Text>
+          </Pressable>
+        </View>
+        <View style={styles.ForgetPasswordContainer}>
+          <Text style={styles.noAccountLink}>
+            Don’t have an account?{" "}
+            <Pressable
+              onPress={() => router.push("/signup")}
+              style={{ alignItems: "center", justifyContent: "center" }}
+            >
+              <Text style={{ color: "#3797ef",justifyContent:"center",alignItems:"center" }}>Sign up.</Text>
+            </Pressable>
+          </Text>
         </View>
       </View>
-    </CustomKeyboardView>
+    </View>
   );
 };
 
@@ -113,16 +109,20 @@ const styles = StyleSheet.create({
   InputField: {
     fontSize: hp(1.5),
     color: "#262626",
-  },
-  InputContainer: {
+    width: "100%",
+    paddingVertical: hp(1),
+    paddingHorizontal: wp(3),
+    marginBottom: hp(1.5),
     backgroundColor: "#FAFAFA",
-    borderRadius: wp(0.3),
+    borderRadius: 5,
   },
   noAccountLink: {
     fontSize: hp(1.5),
     color: "rgba(0, 0, 0, 0.4)",
     fontWeight: "400",
     textAlign: "center",
+    alignContent: "center",
+    justifyContent: "center",
   },
   forgetMessage: {
     fontSize: hp(1.5),
@@ -132,15 +132,30 @@ const styles = StyleSheet.create({
   },
   authContainer: {
     flex: 1,
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: wp(5),
-    height: hp("100%"),
+    paddingHorizontal: wp(4),
   },
+  logoImageContainer: {},
   logoImage: {
     height: hp(5),
-    width: wp("100%"),
     objectFit: "contain",
     resizeMode: "contain",
+    marginBottom: hp(3),
+  },
+  innerContainer: {
+    width: "100%",
+    paddingHorizontal: wp(1),
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 6,
+  },
+  formContainer: {
+    width: "100%",
+  },
+  ForgetPasswordContainer: {
+    alignItems: "center",
+    justifyContent:"center"
   },
 });
