@@ -3,17 +3,12 @@ import {
   Text,
   Image,
   TextInput,
-  TouchableOpacity,
   Pressable,
   Alert,
+  StyleSheet,
+  Button,
 } from "react-native";
-import { StatusBar } from "expo-status-bar";
-import LoginImage from "@/assets/images/login.jpg";
-import { Octicons } from "@expo/vector-icons";
-// import LottieView, { LottieViewProps } from "lottie-react-native";
-import { useEffect, useState } from "react";
-import Loading from "@/components/Loading";
-
+import { useState } from "react";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -29,12 +24,6 @@ const signin = () => {
   const emialRef = useRef("");
   const passwordRef = useRef("");
 
-  // const animationRef = useRef<LottieView>();
-  // useEffect(() => {
-  //   animationRef.current?.play();
-  //   animationRef.current?.play(30, 120);
-  // }, []);
-
   const handleLogin = async () => {
     setIsLoading(true);
     try {
@@ -43,109 +32,59 @@ const signin = () => {
         setIsLoading(false);
         return;
       }
-      // await register(emialRef.current, passwordRef.current);
-      //   setIsLoading(false);
-      //   Login process start here
     } catch (error) {
-      //   setIsLoading(false);
       console.log(error);
     }
   };
   return (
     <CustomKeyboardView>
-      <View className="flex-1">
-        <StatusBar style="dark" />
-        <View
-          className="flex-1 gap-8"
-          style={{ paddingTop: hp(8), paddingHorizontal: wp(3) }}
-        >
-          <View className="items-center">
-            {/* <Image
-            source={LoginImage}
-            resizeMode="contain"
-            style={{ height: hp(30), width: wp(80) }}
-          /> */}
-            {/* <LottieView
-            style={{ height: hp(40), width: wp(90) }}
-            ref={animationRef}
-            source={require("../assets/lottie/signup.json")}
-          />
-        </View> */}
-            <View className="gap-5">
-              <Text
-                className="font-semibold mt-2 text-blue-700 text-center"
-                style={{ fontSize: wp(6) }}
-              >
-                Sign In
-              </Text>
-              <View className="flex-row items-center gap-4 px-4 py-1 rounded-lg bg-gray-100">
-                <Octicons name="mail" size={hp(2.7)} color={"blue"} />
+      <View style={styles.authContainer}>
+        <View>
+          <View>
+            <Image
+              source={require("@/assets/images/instagram-logo.png")}
+              resizeMode="contain"
+              style={styles.logoImage}
+            />
+          </View>
+          <View>
+            <View style={styles.InputContainer}>
+              <TextInput
+                onChangeText={(value) => (emialRef.current = value)}
+                style={styles.InputField}
+                placeholder="Enter your email"
+                placeholderTextColor={"rgba(0, 0, 0, 0.2)"}
+              />
+            </View>
+            <View>
+              <View style={styles.InputContainer}>
                 <TextInput
-                  onChangeText={(value) => (emialRef.current = value)}
-                  style={{ fontSize: hp(2) }}
-                  className=""
-                  placeholder="Enter your email"
-                  placeholderTextColor={"gray"}
-                  keyboardType="email-address"
+                  onChangeText={(value) => (passwordRef.current = value)}
+                  style={styles.InputField}
+                  placeholder="Enter your password"
+                  placeholderTextColor={"rgba(0, 0, 0, 0.2)"}
+                  secureTextEntry
                 />
               </View>
-              <View className="gap-3">
-                <View className="flex-row items-center gap-4 px-4 py-1 rounded-lg bg-gray-100">
-                  <Octicons name="lock" size={hp(2.7)} color={"blue"} />
-                  <TextInput
-                    onChangeText={(value) => (passwordRef.current = value)}
-                    style={{ fontSize: hp(2) }}
-                    className=""
-                    placeholder="Enter your password"
-                    placeholderTextColor={"gray"}
-                    secureTextEntry
-                  />
-                </View>
-                <Pressable onPress={() => router.replace("/forget-password")}>
-                  <Text
-                    style={{ fontSize: hp(1.4) }}
-                    className="text-right text-sm capitalize font-semibold text-neutral-500"
-                  >
-                    forget password?
-                  </Text>
-                </Pressable>
-              </View>
-              <View className="flex-col">
-                {isLoading ? (
-                  <View className="flex-row justify-center items-center">
-                    <Loading size={hp(10)} />
-                  </View>
-                ) : (
-                  <TouchableOpacity
-                    onPress={handleLogin}
-                    className="bg-blue-800 rounded-xl px-4 py-3 text-center"
-                  >
-                    <Text
-                      style={{ fontSize: hp(2.3) }}
-                      className="text-white text-center font-semibold tracking-widest"
-                    >
-                      Log In
-                    </Text>
-                  </TouchableOpacity>
-                )}
-              </View>
-
-              <View className="flex-row items-center justify-center gap-1">
-                <Text
-                  style={{ fontSize: hp(1.7) }}
-                  className="font-semibold text-neutral-500"
-                >
-                  Don't have an account?
+              <Pressable onPress={() => router.replace("/forget-password")}>
+                <Text style={styles.forgetMessage}>forget password?</Text>
+              </Pressable>
+            </View>
+            <View>
+              <Pressable onPress={handleLogin} style={styles.submitButton}>
+                <Text style={styles.buttonText}>
+                  {isLoading ? "Loading.." : "Log In"}
                 </Text>
-                <Pressable onPress={() => router.push("/signup")}>
-                  <Text
-                    style={{ fontSize: hp(1.7) }}
-                    className="font-bold text-blue-500"
-                  >
-                    Sign Up
-                  </Text>
-                </Pressable>
-              </View>
+              </Pressable>
+            </View>
+
+            <View>
+              <Pressable onPress={() => router.push("/signup")}>
+                <Text style={styles.noAccountLink}>
+                  Don’t have an account?{" "}
+                  <Text style={{ color: "#3797ef" }}>Sign up.</Text>
+                </Text>
+              </Pressable>
             </View>
           </View>
         </View>
@@ -155,3 +94,53 @@ const signin = () => {
 };
 
 export default signin;
+
+const styles = StyleSheet.create({
+  submitButton: {
+    backgroundColor: "#9bccf7",
+    paddingVertical: hp(1.6),
+    paddingHorizontal: wp(2),
+    borderRadius: 5,
+    marginTop: hp(2),
+    marginBottom: hp(5),
+  },
+  buttonText: {
+    fontSize: hp(1.5),
+    color: "#ffffff",
+    fontWeight: "400",
+    textAlign: "center",
+  },
+  InputField: {
+    fontSize: hp(1.5),
+    color: "#262626",
+  },
+  InputContainer: {
+    backgroundColor: "#FAFAFA",
+    borderRadius: wp(0.3),
+  },
+  noAccountLink: {
+    fontSize: hp(1.5),
+    color: "rgba(0, 0, 0, 0.4)",
+    fontWeight: "400",
+    textAlign: "center",
+  },
+  forgetMessage: {
+    fontSize: hp(1.5),
+    color: "#3797ef",
+    fontWeight: "400",
+    textAlign: "right",
+  },
+  authContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: wp(5),
+    height: hp("100%"),
+  },
+  logoImage: {
+    height: hp(5),
+    width: wp("100%"),
+    objectFit: "contain",
+    resizeMode: "contain",
+  },
+});

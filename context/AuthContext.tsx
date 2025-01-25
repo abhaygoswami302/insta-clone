@@ -45,7 +45,7 @@ export const AuthContextProvider: React.FC<AuthProviderProps> = ({
 }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | undefined>(
-    true
+    false
   );
 
   useEffect(() => {
