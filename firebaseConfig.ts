@@ -1,12 +1,9 @@
-import { initializeApp } from "firebase/app";
-import {
-  getAuth,
-  setPersistence,
-  ReactNativeAsyncStorage,
-} from "firebase/auth";
-import { getFirestore, collection } from "firebase/firestore";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { initializeApp } from 'firebase/app';
+import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getFirestore, collection } from 'firebase/firestore';
 
+// Firebase configuration
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
   authDomain: process.env.FIREBASE_AUTH_DOMAIN,
@@ -16,16 +13,15 @@ const firebaseConfig = {
   appId: process.env.FIREBASE_APP_ID,
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 
-// Use AsyncStorage for local persistence
-setPersistence(auth, {
-  type: ReactNativeAsyncStorage,
-
-  storage: AsyncStorage,
+// Initialize Firebase Auth with persistence
+const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(AsyncStorage),  // Correct persistence initialization
 });
 
+// Initialize Firestore
 const db = getFirestore(app);
 const userRef = collection(db, "user");
 const roomRef = collection(db, "room");
