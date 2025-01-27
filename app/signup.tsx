@@ -7,7 +7,6 @@ import {
   Pressable,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import LoginImage from "@/assets/images/login.jpg";
 import { Octicons } from "@expo/vector-icons";
 import { useRef, useEffect, useState, ChangeEvent } from "react";
 import {
@@ -40,7 +39,7 @@ const signup = () => {
   };
   const handleRegisterForm = async () => {
     try {
-      await register();
+      // await register();
     } catch (error) {
       console.log((error as Error).message);
     }
@@ -54,17 +53,6 @@ const signup = () => {
           style={{ paddingTop: hp(8), paddingHorizontal: wp(3) }}
         >
           <View className="items-center">
-            {/* <Image
-              source={LoginImage}
-              resizeMode="contain"
-              style={{ height: hp(30), width: wp(80) }}
-            /> */}
-            {/* <LottieView
-              style={{ height: hp(40), width: wp(90) }}
-              loop
-              autoPlay
-              source={require("../assets/lottie/login-image.json")}
-            /> */}
           </View>
           <View className="gap-5">
             <Text

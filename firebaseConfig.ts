@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
+import { initializeAuth } from 'firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getFirestore, collection } from 'firebase/firestore';
 
@@ -12,14 +12,11 @@ const firebaseConfig = {
   messagingSenderId: "904809183680",
   appId: "1:904809183680:web:7b393ab4e111f291f87025",
 };
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize Firebase Auth with persistence
-const auth = initializeAuth(app, {
-  persistence: getReactNativePersistence(AsyncStorage),  // Correct persistence initialization
-});
+// Initialize Firebase Auth with default persistence
+const auth = initializeAuth(app);
 
 // Initialize Firestore
 const db = getFirestore(app);

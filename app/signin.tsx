@@ -19,6 +19,7 @@ import { useAuth } from "@/context/AuthContext";
 
 const signin = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
   const { register } = useAuth();
   const router = useRouter();
   const emialRef = useRef("");
@@ -32,60 +33,79 @@ const signin = () => {
         setIsLoading(false);
         return;
       }
+      setTimeout(() => {
+        setIsLoading(false);
+        setIsHovered(false);
+      }, 5000);
     } catch (error) {
+      setIsHovered(false);
       console.log(error);
     }
   };
-
   return (
-    <View style={styles.authContainer}>
-      <View style={styles.innerContainer}>
-        <View style={styles.logoImageContainer}>
-          <Pressable onPress={() => router.push("/(tab)")}>
-            <Image
-              source={require("@/assets/images/instagram-logo.png")}
-              resizeMode="contain"
-              style={styles.logoImage}
-            />
-          </Pressable>
-        </View>
-        <View style={styles.formContainer}>
-          <TextInput
-            onChangeText={(value) => (emialRef.current = value)}
-            style={styles.InputField}
-            placeholder="Enter your email"
-            placeholderTextColor={"rgba(0, 0, 0, 0.2)"}
-          />
-          <TextInput
-            onChangeText={(value) => (passwordRef.current = value)}
-            style={styles.InputField}
-            placeholder="Enter your password"
-            placeholderTextColor={"rgba(0, 0, 0, 0.2)"}
-            secureTextEntry
-          />
-          <Pressable onPress={() => router.replace("/forget-password")}>
-            <Text style={styles.forgetMessage}>forget password?</Text>
-          </Pressable>
-
-          <Pressable onPress={handleLogin} style={styles.submitButton}>
-            <Text style={styles.buttonText}>
-              {isLoading ? "Loading.." : "Log In"}
-            </Text>
-          </Pressable>
-        </View>
-        <View style={styles.ForgetPasswordContainer}>
-          <Text style={styles.noAccountLink}>
-            Don’t have an account?{" "}
-            <Pressable
-              onPress={() => router.push("/signup")}
-              style={{ alignItems: "center", justifyContent: "center" }}
-            >
-              <Text style={{ color: "#3797ef",justifyContent:"center",alignItems:"center" }}>Sign up.</Text>
+    <CustomKeyboardView>
+      <View style={styles.authContainer}>
+        <View style={styles.innerContainer}>
+          <View style={styles.logoImageContainer}>
+            <Pressable onPress={() => router.push("/(tab)")}>
+              <Image
+                source={require("@/assets/images/instagram-logo.png")}
+                resizeMode="contain"
+                style={styles.logoImage}
+              />
             </Pressable>
-          </Text>
+          </View>
+          <View style={styles.formContainer}>
+            <TextInput
+              onChangeText={(value) => (emialRef.current = value)}
+              style={styles.InputField}
+              placeholder="Enter your email"
+              placeholderTextColor={"rgba(0, 0, 0, 0.2)"}
+            />
+            <TextInput
+              onChangeText={(value) => (passwordRef.current = value)}
+              style={styles.InputField}
+              placeholder="Enter your password"
+              placeholderTextColor={"rgba(0, 0, 0, 0.2)"}
+              secureTextEntry
+            />
+            <Pressable onPress={() => router.replace("/forget-password")}>
+              <Text style={styles.forgetMessage}>Forget password?</Text>
+            </Pressable>
+            <Pressable
+              onPressIn={() => setIsHovered(true)}
+              onPress={handleLogin}
+              style={[styles.submitButton, isHovered && styles.buttonHovered]}
+            >
+              <Text style={styles.buttonText}>
+                {isLoading ? "Loading.." : "Log In"}
+              </Text>
+            </Pressable>
+          </View>
+          <View style={styles.ForgetPasswordContainer}>
+            <Text style={styles.noAccountLink}>
+              Don’t have an account?
+              <Pressable
+                onPress={() => {
+                  router.push("/signup");
+                }}
+                style={{ alignItems: "center", justifyContent: "center" }}
+              >
+                <Text
+                  style={{
+                    color: "#3797ef",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  Sign up.
+                </Text>
+              </Pressable>
+            </Text>
+          </View>
         </View>
       </View>
-    </View>
+    </CustomKeyboardView>
   );
 };
 
@@ -100,6 +120,9 @@ const styles = StyleSheet.create({
     marginTop: hp(2),
     marginBottom: hp(5),
   },
+  buttonHovered: {
+    backgroundColor: "#3797EF",
+  },
   buttonText: {
     fontSize: hp(1.5),
     color: "#ffffff",
@@ -111,7 +134,7 @@ const styles = StyleSheet.create({
     color: "#262626",
     width: "100%",
     paddingVertical: hp(1),
-    paddingHorizontal: wp(3),
+    paddingHorizontal: 20,
     marginBottom: hp(1.5),
     backgroundColor: "#FAFAFA",
     borderRadius: 5,
@@ -156,6 +179,6 @@ const styles = StyleSheet.create({
   },
   ForgetPasswordContainer: {
     alignItems: "center",
-    justifyContent:"center"
+    justifyContent: "center",
   },
 });

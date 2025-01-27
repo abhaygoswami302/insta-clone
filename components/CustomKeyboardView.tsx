@@ -8,8 +8,13 @@ const CustomKeyboardView = ({ children }) => {
       style={{ flex: 1 }}
     >
       <ScrollView
-        style={{ flex: 1 }}
         bounces={false}
+        contentContainerStyle={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+          width:"auto"
+        }}
         showsVerticalScrollIndicator={false}
       >
         {children}
